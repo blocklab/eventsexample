@@ -19,8 +19,12 @@
   document.getElementById('create-event').addEventListener('click', () => {
     contract.create(1, 10000000000000000000, (Date.now()/1000) + 20 * 24 * 3600, 15, web3.sha3('secret'), {
       from: web3.eth.coinbase
-    }, () => {
-      document.getElementById('status').innerHTML = 'Event has been created!'
+    }, (error) => {
+      if (error) {
+        document.getElementById('status').innerHTML = error
+      } else {
+        document.getElementById('status').innerHTML = 'Event has been created!'
+      }
     })
   });
 
