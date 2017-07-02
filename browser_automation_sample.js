@@ -5,6 +5,7 @@ var By = webdriver.By
 var until = webdriver.until
 var username = process.argv[2]
 var os = require('os')
+var robot = require('robotjs')
 
 var options = new chrome.Options()
 if (os.platform() === 'darwin') {
@@ -18,10 +19,18 @@ var driver = new webdriver.Builder()
   .setChromeOptions(options)
   .build()
 
-var chromeMetamaskExtension = 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html'
+var metamaskChromeAppstore = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
 
-driver.get(chromeMetamaskExtension)
-driver.findElement(By.name('q')).sendKeys('webdriver')
-driver.findElement(By.name('btnG')).click()
-driver.wait(until.titleIs('webdriver - Gogle Search'), 4000)
+driver.get(metamaskChromeAppstore)
+var addToChromeButton = By.xpath("//*[text()='Add to Chrome']")
+driver.wait(until.elementLocated(addToChromeButton, 3000))
+driver.findElement(addToChromeButton).click().then(function() {
+  setTimeout(function() {
+    robot.keyTap("tab");
+    robot.keyTap("tab");
+    robot.keyTap("enter");
+  }, 1000)
+})
+
+driver.wait(until.alertIsPresent())
 driver.quit()
