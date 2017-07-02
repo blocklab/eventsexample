@@ -18,7 +18,9 @@ var driver = new webdriver.Builder()
   .setChromeOptions(options)
   .build()
 
-driver.get('http://www.google.com/ncr')
+var chromeMetamaskExtension = 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html'
+
+driver.get(chromeMetamaskExtension)
 driver.findElement(By.name('q')).sendKeys('webdriver')
 driver.findElement(By.name('btnG')).click()
 driver.wait(until.titleIs('webdriver - Gogle Search'), 4000)
